@@ -1,0 +1,8 @@
+#ifndef ARDUINO_CREDENTIALS_H
+#define ARDUINO_CREDENTIALS_H
+
+#define AP_SSID "izmirhs"
+#define CLIENT_DUMMY_SSID "AndroidTV_03"
+#define CLIENT_DUMMY_PASS "123456789"
+
+#endif /* ARDUINO_CREDENTIALS_H */
