@@ -1,6 +1,7 @@
 #include "NetworkAdapter.h"
 #include "SetupRunner.h"
 #include "WiFiCore.h"
+#include "WebSocketConnector.h"
 #include "Global.h"
 
 void NETEvent(WiFiEvent_t event) 
@@ -10,6 +11,7 @@ void NETEvent(WiFiEvent_t event)
     case WIFI_EVENT_STAMODE_GOT_IP:
     
       /* Start WebSocket or MQTT comm in here !*/
+      WSInit();
       
       myIP = WiFi.localIP();
       Serial.printf("Trace   : WiFi connected. IP : %d.%d.%d.%d\n", myIP[0],myIP[1],myIP[2],myIP[3]);
@@ -34,5 +36,9 @@ void NETBegin()
   }
 }
 
+void NETLoop()
+{
+  WSLoop();
+}
 
 
