@@ -6,7 +6,7 @@
 #include "Credentials.h"
 
 WebSocketsClient wsClient;
-boolean ws_init_done = false;
+boolean wsInitCompleted = false;
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t lenght) 
 {
@@ -27,6 +27,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t lenght)
     case WStype_TEXT:
       Serial.printf("Data    : webSocketEvent. Text gathered : %s\n", payload);
 
+      /* Process incoming WebSocket data in here. */
       PAYLOADParse((const char*)payload);
       
       break;
@@ -44,7 +45,7 @@ void WSInit()
   /* Some authorization and SSL must be performed. */
   //wsClient.setAuthorization("user", "Password");
   wsClient.onEvent(webSocketEvent);
-  ws_init_done = true;
+  wsInitCompleted = true;
 }
 
 void WSDeliver(const char* type, const char* data)
@@ -60,7 +61,7 @@ WebSocketsClient WSClient()
 
 void WSLoop()
 {
-  if(ws_init_done)
+  if(wsInitCompleted)
   {
     wsClient.loop();
   }

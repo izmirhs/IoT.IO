@@ -9,6 +9,7 @@ long  btn_secs_held;
 long  btn_prev_secs_held;
 byte  btn_previous = HIGH;
 short btn_debouncing = 50;
+short btn_debounce_threshold = 200;
 unsigned long btn_first_time;
 
 void ButtonInit()
@@ -59,7 +60,7 @@ void SerialInit()
 void ButtonLoop()
 {
   btn_current = digitalRead(pinMap[3]);
-  if (btn_current == LOW && btn_previous == HIGH && (millis() - btn_first_time) > 200) 
+  if (btn_current == LOW && btn_previous == HIGH && (millis() - btn_first_time) > btn_debounce_threshold) 
   {
     btn_first_time = millis();
   }

@@ -8,7 +8,7 @@
 
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
-boolean initCompleted = false;
+boolean mqttInitCompleted = false;
 String clientId = "ESP8266Client-" + String(ESP.getChipId());
 
 void dataCallback(char* topic, byte* payload, unsigned int length)
@@ -80,12 +80,12 @@ void MQTTInit()
 {
   mqttClient.setServer(MQTT_BROKER, MQTT_BROKER_PORT);
   mqttClient.setCallback(dataCallback);
-  initCompleted = true;
+  mqttInitCompleted = true;
 }
 
 void MQTTLoop()
 {
-  if(initCompleted)
+  if(mqttInitCompleted)
   {
     if (!mqttClient.connected())
     {

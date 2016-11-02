@@ -3,6 +3,7 @@
 #include "WiFiCore.h"
 #include "WebSocketConnector.h"
 #include "MQTTConnector.h"
+#include "WebServer.h"
 #include "Global.h"
 
 void NETEvent(WiFiEvent_t event) 
@@ -42,6 +43,7 @@ void NETLoop()
 {
   WSLoop();
   MQTTLoop();
+  WEBLoop();
 }
 
 

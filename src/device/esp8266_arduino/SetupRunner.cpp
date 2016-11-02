@@ -3,6 +3,7 @@
 #include "SetupRunner.h"
 #include "WiFiCore.h"
 #include "FileOrganizer.h"
+#include "WebServer.h"
 #include "Global.h"
 #include "Credentials.h"
 
@@ -61,22 +62,6 @@ void SetupWiFiEvent(WiFiEvent_t event)
   }
 }
 
-void startSmartConfig()
-{
-  WiFiSetStation(SetupWiFiEvent);
-  WiFi.beginSmartConfig();
-  Serial.printf("Trace   : WiFi SmartConfig has begun.\n");
-}
-
-void stopSmartConfig()
-{
-  Serial.printf("Trace   : smartConfigDone -> %d\n",WiFi.smartConfigDone());
-  if(WiFi.smartConfigDone())
-  {
-    WiFi.stopSmartConfig();
-  }
-}
-
 void startDummyConfig()
 {
   WiFiBegin(STATION_DUMMY_SSID, STATION_DUMMY_PASS, SetupWiFiEvent);
@@ -84,7 +69,7 @@ void startDummyConfig()
 
 void stopDummyConfig()
 {
-  WiFi.disconnect();
+  WiFiStop();
 }
 
 boolean SETUPConfigCheck(char * ssid, char * pass)
@@ -126,19 +111,24 @@ void SETUPConfigStart()
 {
   FSDeleteFile(WIFI_CONFIG_FILE);
   /* Provide fn pointers for each mode and fill fn with related ops. */
-#ifdef SETUP_DUMMY_CONFIG
+#if defined(SETUP_DUMMY_CONFIG)
   startDummyConfig();
 #elif defined(SETUP_SMART_CONFIG)
-  startSmartConfig();
+  WiFiStartSmart(SetupWiFiEvent);
+#elif defined(SETUP_WEBSERVER_AP)
+  WiFiSetAP(AP_SSID);
+  WEBInit();
 #endif
 }
 
 void SETUPConfigStop()
 {
-#ifdef SETUP_DUMMY_CONFIG
+#if defined(SETUP_DUMMY_CONFIG)
   stopDummyConfig();
 #elif  defined(SETUP_SMART_CONFIG)
-  stopSmartConfig();
+  WiFiStopSmart();
+#elif defined(SETUP_WEBSERVER_AP)
+  WEBStop();
 #endif
 }
 

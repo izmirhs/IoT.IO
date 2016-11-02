@@ -14,8 +14,8 @@
  * SETUP_WEBSERVER_AP : A webserver runs on ESP in AP mode to handle user requests and credentials.
  */
 //#define SETUP_SMART_CONFIG
-#define SETUP_DUMMY_CONFIG
-//#define SETUP_WEBSERVER_AP
+//#define SETUP_DUMMY_CONFIG
+#define SETUP_WEBSERVER_AP
 
 /* Protocol Definitions */
 //#define PROTOCOL_WEBSOCKET

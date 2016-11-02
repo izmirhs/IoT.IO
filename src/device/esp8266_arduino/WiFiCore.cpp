@@ -40,3 +40,25 @@ void WiFiBegin(const char* ssid, const char* pass, WiFiEventCb wifiEventCb)
   Serial.printf("Trace   : WiFi has begun.\n");
 }
 
+void WiFiStop()
+{
+  WiFi.softAPdisconnect();
+  WiFi.disconnect();
+}
+
+void WiFiStartSmart(WiFiEventCb wifiEventCb)
+{
+  WiFiSetStation(wifiEventCb);
+  WiFi.beginSmartConfig();
+  Serial.printf("Trace   : WiFi SmartConfig has begun.\n");
+}
+
+void WiFiStopSmart()
+{
+  Serial.printf("Trace   : smartConfigDone -> %d\n",WiFi.smartConfigDone());
+  if(WiFi.smartConfigDone())
+  {
+    WiFi.stopSmartConfig();
+  }
+}
+
