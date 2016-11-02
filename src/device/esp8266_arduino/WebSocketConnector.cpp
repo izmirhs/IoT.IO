@@ -1,34 +1,12 @@
 #include <WebSocketsClient.h>
 
 #include "WebSocketConnector.h"
+#include "PayloadProcessor.h"
 #include "Global.h"
 #include "Credentials.h"
 
-#include <ArduinoJson.h>
-
 WebSocketsClient wsClient;
 boolean ws_init_done = false;
-
-String PROCWebSocketDelivery(const char* type, const char* data)
-{
-  StaticJsonBuffer<JSON_BUF_SIZE> jsonBuffer;
-  JsonObject& deviceData = jsonBuffer.createObject();
-  String jsonToSend;
-  deviceData["origin"] = "device";
-  deviceData["deviceId"] = ESP.getChipId();
-  deviceData["type"] = type;
-  deviceData["data"] = data;
-  deviceData["succeed"] = 1;
-  deviceData.printTo(jsonToSend);
-
-  return jsonToSend;
-}
-
-void WSDeliver(const char* type, const char* data)
-{
-  String delivery = PROCWebSocketDelivery(type, data);
-  wsClient.sendTXT(delivery);
-}
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t lenght) 
 {
@@ -43,15 +21,13 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t lenght)
     case WStype_CONNECTED:
       {
         Serial.printf("Trace   : webSocketEvent. Connected to url: %s\n",  payload);
-        char deviceId[MAX_JSON_ATTR_LEN];
-        String(ESP.getChipId()).toCharArray(deviceId, MAX_JSON_ATTR_LEN);
-        WSDeliver("ws_init", deviceId);
+        WSDeliver(WS_TYPE_INIT, String(ESP.getChipId()).c_str());
       }
       break;
     case WStype_TEXT:
       Serial.printf("Data    : webSocketEvent. Text gathered : %s\n", payload);
 
-      /* Process incoming WebSocket data in here. */
+      PAYLOADParse((const char*)payload);
       
       break;
     case WStype_BIN:
@@ -65,9 +41,16 @@ void WSInit()
 {
   /* Path gonna be used. */
   wsClient.begin(WS_HOST, WS_PORT /*, String(ESP.getChipId())*/);
+  /* Some authorization and SSL must be performed. */
   //wsClient.setAuthorization("user", "Password");
   wsClient.onEvent(webSocketEvent);
   ws_init_done = true;
+}
+
+void WSDeliver(const char* type, const char* data)
+{
+  String payload = PAYLOADCompose(type, data);
+  wsClient.sendTXT(payload);
 }
 
 WebSocketsClient WSClient()
@@ -77,6 +60,9 @@ WebSocketsClient WSClient()
 
 void WSLoop()
 {
-  wsClient.loop();
+  if(ws_init_done)
+  {
+    wsClient.loop();
+  }
 }
 

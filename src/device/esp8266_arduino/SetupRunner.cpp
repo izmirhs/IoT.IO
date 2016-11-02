@@ -20,7 +20,14 @@ boolean storeWiFiCredentials()
   if(FSWriteConfig(WIFI_CONFIG_FILE, ATTR_SSID, connectedSSID))
   {
     /* Need to test with no pass networks! */
-    strlen(connectedPass) ? FSWriteConfig(WIFI_CONFIG_FILE, ATTR_PASSPHRASE, connectedPass) : Serial.printf("No Password for WiFi ?\n");
+    if(strlen(connectedPass))
+    {
+      FSWriteConfig(WIFI_CONFIG_FILE, ATTR_PASSPHRASE, connectedPass);
+    }
+    else
+    {
+      Serial.printf("Warning : No Password for WiFi ?\n");
+    }
     Serial.printf("Trace   : WiFi Config is written.\n");
     retval = true;
   }
@@ -72,7 +79,7 @@ void stopSmartConfig()
 
 void startDummyConfig()
 {
-  WiFiBegin(CLIENT_DUMMY_SSID, CLIENT_DUMMY_PASS, SetupWiFiEvent);
+  WiFiBegin(STATION_DUMMY_SSID, STATION_DUMMY_PASS, SetupWiFiEvent);
 }
 
 void stopDummyConfig()
@@ -119,18 +126,18 @@ void SETUPConfigStart()
 {
   FSDeleteFile(WIFI_CONFIG_FILE);
   /* Provide fn pointers for each mode and fill fn with related ops. */
-#ifdef USE_DUMMY_SETUP
+#ifdef SETUP_DUMMY_CONFIG
   startDummyConfig();
-#elif defined(USE_SMART_CONFIG_SETUP)
+#elif defined(SETUP_SMART_CONFIG)
   startSmartConfig();
 #endif
 }
 
 void SETUPConfigStop()
 {
-#ifdef USE_DUMMY_SETUP
+#ifdef SETUP_DUMMY_CONFIG
   stopDummyConfig();
-#elif  defined(USE_SMART_CONFIG_SETUP)
+#elif  defined(SETUP_SMART_CONFIG)
   stopSmartConfig();
 #endif
 }
