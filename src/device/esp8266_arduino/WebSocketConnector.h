@@ -5,8 +5,8 @@
 
 #define WS_TYPE_INIT  "ws_init"
 
-void WSInit();
-void WSLoop();
-void WSDeliver(const char* type, const char* data);
+void WSOCKInit();
+void WSOCKLoop();
+void WSOCKDeliver(const char* type, const char* data);
 
 #endif /* ARDUINO_WEBSOCKETCONNECTOR_H */

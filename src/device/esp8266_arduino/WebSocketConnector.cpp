@@ -21,7 +21,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t lenght)
     case WStype_CONNECTED:
       {
         Serial.printf("Trace   : webSocketEvent. Connected to url: %s\n",  payload);
-        WSDeliver(WS_TYPE_INIT, String(ESP.getChipId()).c_str());
+        WSOCKDeliver(WS_TYPE_INIT, String(ESP.getChipId()).c_str());
       }
       break;
     case WStype_TEXT:
@@ -38,28 +38,23 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t lenght)
   }
 }
 
-void WSInit()
+void WSOCKInit()
 {
   /* Path gonna be used. */
-  wsClient.begin(WS_HOST, WS_PORT /*, String(ESP.getChipId())*/);
+  wsClient.begin(WSOCK_HOST, WSOCK_PORT /*, String(ESP.getChipId())*/);
   /* Some authorization and SSL must be performed. */
   //wsClient.setAuthorization("user", "Password");
   wsClient.onEvent(webSocketEvent);
   wsInitCompleted = true;
 }
 
-void WSDeliver(const char* type, const char* data)
+void WSOCKDeliver(const char* type, const char* data)
 {
   String payload = PAYLOADCompose(type, data);
   wsClient.sendTXT(payload);
 }
 
-WebSocketsClient WSClient()
-{
-  return wsClient;
-}
-
-void WSLoop()
+void WSOCKLoop()
 {
   if(wsInitCompleted)
   {

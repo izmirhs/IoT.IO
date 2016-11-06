@@ -4,7 +4,7 @@
 #include "WebServer.h"
 #include "PayloadProcessor.h"
 
-ESP8266WebServer webServer(80);
+ESP8266WebServer webServer(HTTP_SERVER_PORT);
 boolean webServerInitCompleted = false;
 
 void handleRequest()
@@ -16,17 +16,16 @@ void handleRequest()
   }
   Serial.printf("Trace   : Incoming HTTP request :\n%s\n", message.c_str());
 
-  if(webServer.args() == 1)
+  if(webServer.args() == 1 && webServer.arg(0).c_str())
   {
-    PAYLOADParse(message.c_str());
-    Serial.printf("Trace   : HTTP Data payload :  %s\n", webServer.arg(0).c_str());
+    PAYLOADParse(webServer.arg(0).c_str());
 
     /* For now, resend to incoming data payload as response until we parse and process them. */
     
     String response = message.c_str();
     if(response.length())
     {
-      webServer.send(200, "text/plain", response);
+      webServer.send(HTTP_OK, HTTP_CONTENT_JSON, response);
     }
     else
     {
@@ -44,8 +43,6 @@ void handleNotFound()
   String message = "File Not Found\n\n";
   message += "URI: ";
   message += webServer.uri();
-  message += "\nMethod: ";
-  message += (webServer.method() == HTTP_GET)?"GET":"POST";
   message += "\nArguments: ";
   message += webServer.args();
   message += "\n";
@@ -53,7 +50,7 @@ void handleNotFound()
   {
     message += " " + webServer.argName(i) + ": " + webServer.arg(i) + "\n";
   }
-  webServer.send(404, "text/plain", message);
+  webServer.send(HTTP_NOT_FOUND, HTTP_CONTENT_TEXT, message);
 }
 
 void WEBStop()
@@ -63,10 +60,10 @@ void WEBStop()
 
 void WEBInit()
 {
-  webServer.on("/", handleRequest);
+  webServer.on(HTTP_SERVER_PATH, handleRequest);
   webServer.onNotFound(handleNotFound);
   webServer.begin();
-  Serial.printf(" Trace   : WebwebServer. HTTP webServer started.\n");
+  Serial.printf("Trace   : WebwebServer. HTTP webServer started.\n");
   /* Refer to server begin return value for looping. */
   webServerInitCompleted = true;
 }

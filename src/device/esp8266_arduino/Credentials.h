@@ -8,8 +8,8 @@
 
 /* WebSocket Credentials */
 /* Contact with Cihan Begburs for WebSocket credentials. */
-#define WS_HOST "OUR_WS_HOST"
-#define WS_PORT "WS_PORT_AS_INT"
+#define WSOCK_HOST "OUR_WS_HOST"
+#define WSOCK_PORT "WS_PORT_AS_INT"
 
 /* MQTT Credentials */
 /* Contact with Cihan Begburs for MQTT credentials. */

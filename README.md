@@ -19,12 +19,16 @@ Required Arduino Libraries :
 
 WiFi Setup Methods : 
 
-1. Dummy Setup : Write your WiFi credentials under Credentials.h file. 
+1. Dummy Setup : Write your WiFi credentials under Credentials.h file.
+   To enable, define SETUP_DUMMY_CONFIG from Credentials.h.
 2. SmartConfig : ESP has a protocol called ESP-TOUCH which floads sub-IP packets via its radio for ease of WiFi setup.
-   With this method, WiFi credentials are easily sending to ESP8266 without falling back to AP mode and running any internal Webserver.
-   Until getting our own Android App, this app would be used initially : https://play.google.com/store/apps/details?id=com.cmmakerclub.iot.esptouch&hl=tr
+   With this method, WiFi credentials are easily sending to ESP8266 without falling back to AP mode.
+   Until getting our own Android App, this app would be used initially : 
+   https://play.google.com/store/apps/details?id=com.cmmakerclub.iot.esptouch&hl=tr
    You can compile from source : https://github.com/EspressifApp/EsptouchForAndroid
-3. WebServer Setup : Device gets in AP mode and starts a WebServer on a given IP. Handles POSTed Wifi credential and user data and process them. (In progress)
+   To enable, define SETUP_SMART_CONFIG from Credentials.h.
+3. WebServer Setup : Device gets in AP mode and starts a WebServer on a given IP. Handles POSTed Wifi credential and user data and process them.
+   To enable, define SETUP_WEBSERVER_AP from Credentials.h.
 4. When connection gets succeeded, they all will be stored on the filesystem.
 
 Data Communication Methods : 

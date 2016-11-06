@@ -1,5 +1,5 @@
-#ifndef ARDUINO_SETUPCONTROLLER_H
-#define ARDUINO_SETUPCONTROLLER_H
+#ifndef ARDUINO_SETUPRUNNER_H
+#define ARDUINO_SETUPRUNNER_H
 
 #include <Arduino.h>
 
@@ -8,4 +8,4 @@ void SETUPConfigStart();
 void SETUPConfigStop();
 boolean SETUPConfigCheck(char * ssid, char * pass);
 
-#endif /* ARDUINO_SETUPCONTROLLER_H */
+#endif /* ARDUINO_SETUPRUNNER_H */

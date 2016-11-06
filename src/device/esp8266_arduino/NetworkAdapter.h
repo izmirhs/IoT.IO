@@ -1,9 +1,9 @@
-#ifndef ARDUINO_WIFICONTROLLER_H
-#define ARDUINO_WIFICONTROLLER_H
+#ifndef ARDUINO_NETWORKADAPTER_H
+#define ARDUINO_NETWORKADAPTER_H
 
 #include <Arduino.h>
 
 void NETBegin();
 void NETLoop();
 
-#endif /* ARDUINO_WIFICONTROLLER_H */
+#endif /* ARDUINO_NETWORKADAPTER_H */

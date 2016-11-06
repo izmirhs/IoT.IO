@@ -3,14 +3,14 @@
 #include "Global.h"
 
 short hw_delay = 10;
-int   btn_current;
-long  btn_millis_held;
-long  btn_secs_held;
-long  btn_prev_secs_held;
+int   btn_current = 0;
+long  btn_millis_held = 0;
+long  btn_secs_held = 0;
+long  btn_prev_secs_held = 0;
 byte  btn_previous = HIGH;
 short btn_debouncing = 50;
 short btn_debounce_threshold = 200;
-unsigned long btn_first_time;
+unsigned long btn_first_time = 0;
 
 void ButtonInit()
 {
@@ -97,11 +97,17 @@ void LedLoop()
   
 }
 
+void HWRestart()
+{
+  ESP.restart();
+}
+
 void HWInit()
 {
   GPIOInit();
   ButtonInit();
   SerialInit();
+  FSInit();
 }
 
 void HWLoop()

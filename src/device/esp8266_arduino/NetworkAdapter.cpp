@@ -8,16 +8,16 @@
 
 void NETEvent(WiFiEvent_t event) 
 {
-  IPAddress myIP;
   switch(event) {
     case WIFI_EVENT_STAMODE_GOT_IP:
 #ifdef PROTOCOL_WEBSOCKET
-      WSInit();
+      WSOCKInit();
 #elif defined(PROTOCOL_MQTT)
       MQTTInit();
 #endif
-      myIP = WiFi.localIP();
-      Serial.printf("Trace   : WiFi connected. IP : %d.%d.%d.%d\n", myIP[0],myIP[1],myIP[2],myIP[3]);
+      char deviceIP[MAX_IP_LEN];
+      WiFiGetIP(deviceIP);
+      Serial.printf("Trace   : WiFi connected. IP : %s\n", deviceIP);
       break;
     case WIFI_EVENT_STAMODE_DISCONNECTED:
       Serial.printf("Warning : WiFi lost connection!\n");
@@ -41,7 +41,7 @@ void NETBegin()
 
 void NETLoop()
 {
-  WSLoop();
+  WSOCKLoop();
   MQTTLoop();
   WEBLoop();
 }

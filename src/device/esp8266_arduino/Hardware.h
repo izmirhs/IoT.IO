@@ -4,6 +4,7 @@
 #include <Arduino.h>
 
 void HWInit();
+void HWRestart();
 void HWLoop();
 
 #endif /* ARDUINO_HARDWARE_H */

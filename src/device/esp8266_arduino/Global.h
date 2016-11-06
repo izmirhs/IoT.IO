@@ -1,7 +1,7 @@
 #ifndef ARDUINO_GLOBAL_H
 #define ARDUINO_GLOBAL_H
 
-#define SERIAL_DBG Serial
+#define PRINTF Serial.printf
 
 /* Board Definitions */
 #define USE_NODEMCU_BOARD
@@ -26,6 +26,7 @@
 #define MAX_FILE_SIZE     512
 #define MAX_JSON_ATTR_LEN 64
 #define JSON_BUF_SIZE     256
+#define MAX_IP_LEN        16
 
 /* GPIO Definitions */
 static const int pinMap[11] = {16, 5, 4, 0, 2, 14, 12, 13, 15, 3, 1};

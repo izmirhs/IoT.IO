@@ -123,3 +123,44 @@ void FSDeleteFile(const char* filename)
   SPIFFS.remove(filename);
 }
 
+boolean FSStoreWiFiCredentials(const char* ssid, const char* pass)
+{
+  boolean retval = false;
+
+  Serial.printf("Trace   : FSStoreWiFiCredentials. SSID : %s\n", ssid);
+  Serial.printf("Trace   : FSStoreWiFiCredentials PASS : %s\n", pass);
+
+  FSDeleteFile(WIFI_CONFIG_FILE);
+  
+  if(ssid && strlen(ssid) && strlen(ssid) <= MAX_FILE_ATTR_LEN)
+  {
+    if(FSWriteConfig(WIFI_CONFIG_FILE, FILE_ATTR_SSID, ssid))
+    {
+      retval = true;
+      if(pass && strlen(pass) && strlen(pass) <= MAX_FILE_ATTR_LEN)
+      {
+        Serial.println("Trace   : FSStoreWiFiCredentials. SSID written.");
+        if(!FSWriteConfig(WIFI_CONFIG_FILE, FILE_ATTR_PASSPHRASE, pass))
+        {
+          retval = false;
+          Serial.println("Error!  : FSStoreWiFiCredentials. Password cannot be written!");
+        }
+      }
+      else
+      {
+        Serial.println("Warning: FSStoreWiFiCredentials. No Pass Network.");
+      }
+    }
+    else
+    {
+      Serial.println("Danger!!: FSStoreWiFiCredentials. SSID cannot be written!!");
+    }
+  }
+  else
+  {
+    Serial.println("Danger!!: FSStoreWiFiCredentials. SSID is not valid!!");
+  }
+
+  return retval;
+}
+
