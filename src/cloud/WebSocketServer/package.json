@@ -1,0 +1,9 @@
+{
+  "name": "izmirhs",
+  "description": "IoT.IO",
+  "author": "IoT.IO guys",
+  "dependencies": {
+    "nodejs-websocket": "latest"
+  }
+}
+
