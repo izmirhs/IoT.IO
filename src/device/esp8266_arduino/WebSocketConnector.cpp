@@ -6,6 +6,7 @@
 #include "Credentials.h"
 
 WebSocketsClient wsClient;
+static const Protocol_t protocol = WebSocket;
 boolean wsInitCompleted = false;
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t lenght) 
@@ -26,10 +27,20 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t lenght)
       break;
     case WStype_TEXT:
       Serial.printf("Data    : webSocketEvent. Text gathered : %s\n", payload);
-
-      /* Process incoming WebSocket data in here. */
-      PAYLOADParse((const char*)payload);
-      
+      char response[JSON_BUF_SIZE];
+      PAYLOADParse((const char*)payload, protocol, response);
+      if(response && strlen(response))
+      {
+        /* Send back incoming text with filling requested data.
+         * As SebSocket is an async protocol, we may put requests in a queue to process.
+         * So we gonna need to put an identifier to all incoming data and store in structs.
+         */
+        wsClient.sendTXT(response);
+      }
+      else
+      {
+        Serial.printf("Error!  : webSocketEvent. Request connot be processed correctly !!!\n");
+      }
       break;
     case WStype_BIN:
       Serial.printf("Data    : webSocketEvent. Data gathered : %u\n", lenght);
@@ -50,8 +61,11 @@ void WSOCKInit()
 
 void WSOCKDeliver(const char* type, const char* data)
 {
-  String payload = PAYLOADCompose(type, data);
-  wsClient.sendTXT(payload);
+  char request[JSON_BUF_SIZE];
+  if(PAYLOADCompose(type, data, request))
+  {
+    wsClient.sendTXT(request);
+  }
 }
 
 void WSOCKLoop()

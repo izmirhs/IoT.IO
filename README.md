@@ -27,9 +27,21 @@ WiFi Setup Methods :
    https://play.google.com/store/apps/details?id=com.cmmakerclub.iot.esptouch&hl=tr
    You can compile from source : https://github.com/EspressifApp/EsptouchForAndroid
    To enable, define SETUP_SMART_CONFIG from Credentials.h.
-3. WebServer Setup : Device gets in AP mode and starts a WebServer on a given IP. Handles POSTed Wifi credential and user data and process them.
+3. WebServer Setup : Device gets in AP mode and starts a WebServer on a given IP. 
+   Handles POSTed Wifi credential and user data and process them.
    To enable, define SETUP_WEBSERVER_AP from Credentials.h.
 4. When connection gets succeeded, they all will be stored on the filesystem.
+
+Using Postman to send WiFi credentials to device's WebServer in AP mode (Demo purpose):
+
+0. Postman is a cool Chrome browser plugin to make HTTP request. It is for demo purpose until we have a user client.
+1. We will POST JSON data to the ESP8266 device to handle requests.
+2. In AP mode, we have IP address of 192.168.99.1.
+3. You need to send below JSON data to set WiFi credentials on board.
+4. {type:"APInfo", ssid:YOUR_SSID, pass:YOUR_PASS}
+5. Device requires a reboot to left AP mode and connect to WiFi. So send the data below.
+6. {type:"APDone"}
+ 
 
 Data Communication Methods : 
 
@@ -39,5 +51,7 @@ Data Communication Methods :
 
 Factory Reset:
 
-1. A button (currently GPIO 0) was programmed to clear user data such as Wifi Credentials.
-2. Device reboots and falls back to setup mode on long press event of the related button.
+1. A button (currently connected to GPIO 0) was programmed to clear user data such as Wifi Credentials.
+2. Need to press more than 3 seconds to fallback in setup mode.
+3. A led indicatior will be added to feedback the status. 
+

@@ -5,6 +5,7 @@
 
 void HWInit();
 void HWRestart();
+void HWGetUniqeId(char *uid);
 void HWLoop();
 
 #endif /* ARDUINO_HARDWARE_H */

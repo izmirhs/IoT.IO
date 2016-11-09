@@ -3,6 +3,13 @@
 
 #define PRINTF Serial.printf
 
+typedef enum Protocol
+{
+  WebSocket = 0,
+  MQTT,
+  HTTP
+}Protocol_t;
+
 /* Board Definitions */
 #define USE_NODEMCU_BOARD
 //#define USE_GENERIC_ESP8266
@@ -18,15 +25,15 @@
 #define SETUP_WEBSERVER_AP
 
 /* Protocol Definitions */
-//#define PROTOCOL_WEBSOCKET
-#define PROTOCOL_MQTT
+#define PROTOCOL_WEBSOCKET
+//#define PROTOCOL_MQTT
 
 /* IO Definitions */
 #define MAX_FILE_ATTR_LEN 64
 #define MAX_FILE_SIZE     512
 #define MAX_JSON_ATTR_LEN 64
 #define JSON_BUF_SIZE     256
-#define MAX_IP_LEN        16
+#define MAX_IP_LEN        17
 
 /* GPIO Definitions */
 static const int pinMap[11] = {16, 5, 4, 0, 2, 14, 12, 13, 15, 3, 1};

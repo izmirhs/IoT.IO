@@ -102,12 +102,17 @@ void HWRestart()
   ESP.restart();
 }
 
+void HWGetDeviceId(char *uid)
+{
+  /* Most device types use UUID. We may just use MAC or some concat. */
+}
+
 void HWInit()
 {
   GPIOInit();
-  ButtonInit();
   SerialInit();
   FSInit();
+  ButtonInit();
 }
 
 void HWLoop()

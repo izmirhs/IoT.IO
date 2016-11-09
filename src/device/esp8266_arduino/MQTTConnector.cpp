@@ -8,6 +8,7 @@
 
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
+static const Protocol_t protocol = HTTP;
 boolean mqttInitCompleted = false;
 String clientId = "ESP8266Client-" + String(ESP.getChipId());
 
@@ -20,8 +21,8 @@ void dataCallback(char* topic, byte* payload, unsigned int length)
     Serial.printf("%c", (char)payload[i]);
   }
   Serial.printf("\n");
-
-  PAYLOADParse((const char*)payload);
+  char response[JSON_BUF_SIZE];
+  PAYLOADParse((const char*)payload, protocol, response);
 }
 
 void performConnect()
@@ -69,8 +70,11 @@ boolean MQTTDeliver(const char* topic, const char* type, const char* data)
   boolean retval = false;
   if (mqttClient.connected())
   {
-    String payload = PAYLOADCompose(type, data);
-    retval = mqttClient.publish(topic, payload.c_str());
+    char request[JSON_BUF_SIZE];
+    if(PAYLOADCompose(type, data, request))
+    {
+      retval = mqttClient.publish(topic, request); 
+    }
   }
   
   return retval;
