@@ -10,11 +10,13 @@
 #define PAYLOAD_DATA_AP_DONE    "APDone"
 #define PAYLOAD_DATA_TIME_INFO  "TimeInfo"
 /* Runtime Payload Data */
+#define PAYLOAD_DATA_LEN        64
 #define PAYLOAD_DATA_BRIDGE     "Bridge"
 #define PAYLOAD_DATA_SWITCH     "Switch"
 #define PAYLOAD_DATA_TIMER      "Timer"
 #define PAYLOAD_DATA_FACTORY    "Factory"
 /* Attribure name identifiers delivered with Payload */
+#define PAYLOAD_ATTR_LEN        16
 #define PAYLOAD_ATTR_TYPE       "type"
 #define PAYLOAD_ATTR_DATA       "data"
 #define PAYLOAD_ATTR_SUCCESS    "succeed"

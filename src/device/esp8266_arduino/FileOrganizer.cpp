@@ -108,7 +108,7 @@ boolean FSWriteConfig(const char * filename, const char * parameter, const char 
     configFileDescWriter.close();
   }
   configFileDescReader.close();
-  Serial.printf("HEAP after write : %d\n\n",ESP.getFreeHeap());
+  Serial.printf("HEAP after write : %d\n",ESP.getFreeHeap());
 
   return true;
 }

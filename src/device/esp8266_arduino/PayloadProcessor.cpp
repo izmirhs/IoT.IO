@@ -9,35 +9,53 @@
 boolean payloadDispatch(JsonObject& pObject)
 {
   boolean retval = false;
-  if (pObject[PAYLOAD_ATTR_ORIGIN].as<const char*>() && strcmp(pObject[PAYLOAD_ATTR_ORIGIN].as<const char*>(), PAYLOAD_ORIGIN_DEVICE) == 0)
+  char type[PAYLOAD_ATTR_LEN] = {0};
+  char origin[PAYLOAD_ATTR_LEN] = {0};
+  
+  if(pObject[PAYLOAD_ATTR_TYPE].as<const char*>())
+  {
+    strncpy(type, pObject[PAYLOAD_ATTR_TYPE].as<const char*>(), PAYLOAD_ATTR_LEN);
+  }
+  if(pObject[PAYLOAD_ATTR_ORIGIN].as<const char*>())
+  {
+    strncpy(origin, pObject[PAYLOAD_ATTR_ORIGIN].as<const char*>(), PAYLOAD_ATTR_LEN);
+  }
+  if (origin && strcmp(origin, PAYLOAD_ORIGIN_DEVICE) == 0)
   {
     Serial.printf("Warning: Payload will not be processed due to device origin.\n");
   }
   else
   {
-    /* TODO: Use strncpy. */
+    /* JSON attribute is a class type and has operator overloading for equation. */
     pObject[PAYLOAD_ATTR_ORIGIN] = PAYLOAD_ORIGIN_DEVICE;
-    if(pObject[PAYLOAD_ATTR_TYPE].as<const char*>())
+    if(type)
     {
-      Serial.printf("Trace   : Payload attribute type : %s\n", pObject[PAYLOAD_ATTR_TYPE].as<const char*>());
-      if (strcmp(pObject[PAYLOAD_ATTR_TYPE].as<const char*>(), PAYLOAD_DATA_AP_INFO) == 0)
+      Serial.printf("Trace   : Payload attribute type : %s\n", type);
+      if (strcmp(type, PAYLOAD_DATA_AP_INFO) == 0)
       {
-        retval = FSStoreWiFiCredentials(pObject[PAYLOAD_ATTR_SSID], pObject[PAYLOAD_ATTR_PASSPHRASE]);
+        if(pObject[PAYLOAD_ATTR_SSID].as<const char*>())
+        {
+          retval = FSStoreWiFiCredentials(pObject[PAYLOAD_ATTR_SSID], pObject[PAYLOAD_ATTR_PASSPHRASE]);
+        }
+        else
+        {
+          Serial.printf("Error!  : Payload has no valid SSID data.\n");
+        }
       }
-      else if (strcmp(pObject[PAYLOAD_ATTR_TYPE].as<const char*>(), PAYLOAD_DATA_AP_SEARCH) == 0)
+      else if (strcmp(type, PAYLOAD_DATA_AP_SEARCH) == 0)
       {
         /* Request visible WiFi networks from device. */
       }
-      else if (strcmp(pObject[PAYLOAD_ATTR_TYPE].as<const char*>(), PAYLOAD_DATA_AP_DONE) == 0)
+      else if (strcmp(type, PAYLOAD_DATA_AP_DONE) == 0)
       {
         HWRestart();
         /* No need a return value due to restart. */
       }
-      else if (strcmp(pObject[PAYLOAD_ATTR_TYPE].as<const char*>(), PAYLOAD_DATA_TIME_INFO) == 0)
+      else if (strcmp(type, PAYLOAD_DATA_TIME_INFO) == 0)
       {
         /* If we gonna have NTP or RTC, this will make us to sync with user client. */
       }
-      else if (strcmp(pObject[PAYLOAD_ATTR_TYPE].as<const char*>(), PAYLOAD_DATA_BRIDGE) == 0)
+      else if (strcmp(type, PAYLOAD_DATA_BRIDGE) == 0)
       {
         /* Functionize them all! */
         char deviceIP[MAX_IP_LEN];
@@ -52,15 +70,15 @@ boolean payloadDispatch(JsonObject& pObject)
         pObject[PAYLOAD_ATTR_SUCCESS] = 1;
         retval = true;
       }
-      else if (strcmp(pObject[PAYLOAD_ATTR_TYPE], PAYLOAD_DATA_SWITCH) == 0)
+      else if (strcmp(type, PAYLOAD_DATA_SWITCH) == 0)
       {
         /* Do Some GPIO operations */
       }
-      else if (strcmp(pObject[PAYLOAD_ATTR_TYPE], PAYLOAD_DATA_TIMER) == 0)
+      else if (strcmp(type, PAYLOAD_DATA_TIMER) == 0)
       {
         /* Time triggered events. */
       }
-      else if (strcmp(pObject[PAYLOAD_ATTR_TYPE], PAYLOAD_DATA_FACTORY) == 0)
+      else if (strcmp(type, PAYLOAD_DATA_FACTORY) == 0)
       {
         FSDeleteFile(WIFI_CONFIG_FILE);
         HWRestart();

@@ -36,6 +36,6 @@ typedef enum Protocol
 #define MAX_IP_LEN        17
 
 /* GPIO Definitions */
-static const int pinMap[11] = {16, 5, 4, 0, 2, 14, 12, 13, 15, 3, 1};
+static const uint8_t pinMap[11] = {16, 5, 4, 0, 2, 14, 12, 13, 15, 3, 1};
 
 #endif /* ARDUINO_GLOBAL_H */
