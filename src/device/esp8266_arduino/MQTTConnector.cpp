@@ -8,7 +8,7 @@
 
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
-static const Protocol_t protocol = HTTP;
+static const Protocol_t protocol = MQTT;
 boolean mqttInitCompleted = false;
 String clientId = "ESP8266Client-" + String(ESP.getChipId());
 

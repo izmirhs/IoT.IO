@@ -9,12 +9,12 @@
 /* WebSocket Credentials */
 /* Contact with Cihan Begburs for WebSocket credentials. */
 #define WSOCK_HOST "OUR_WS_HOST"
-#define WSOCK_PORT "WS_PORT_AS_INT"
+#define WSOCK_PORT 80
 
 /* MQTT Credentials */
 /* Contact with Cihan Begburs for MQTT credentials. */
 #define MQTT_BROKER       "OUR_MQTT_BROKER_ADDR"
-#define MQTT_BROKER_PORT  "MQTT_PORT_AS_INT"
+#define MQTT_BROKER_PORT  1883
 #define MQTT_USERNAME     "OUR_MQTT_USER"
 #define MQTT_KEY          "OUR_MQTT_KEY"
 
