@@ -56,7 +56,7 @@ Hardware :
 
 1. Initial DS18B20 OneWire digital sensor implementaiton was added thru the library.
 OneWire needs a 4.7K pull-up resistor. Check for the schematics.
-2. Relays are able to be controlled via GPIOs 8 & 9.
+2. Relays are able to be controlled via GPIOs 16 & 5.
 
 Factory Reset:
 

@@ -33,27 +33,19 @@ void ButtonInit()
 #endif
 }
 
-void LedInit()
-{
-
-}
-
 void GPIOInit()
 {
 #ifdef USE_NODEMCU_BOARD
   pinMode(pinMap[0], OUTPUT);
   pinMode(pinMap[1], OUTPUT);
-  pinMode(pinMap[2], OUTPUT);
+  /* pinMap[2] will be used for one-wire DQ. */
 #elif defined(USE_DRAGON_BOARD)
   pinMode(pinMap[6], OUTPUT);
   pinMode(pinMap[7], OUTPUT);
-  pinMode(pinMap[1], OUTPUT);
-  pinMode(pinMap[2], OUTPUT);
 #else
   pinMode(pinMap[6], OUTPUT);
   pinMode(pinMap[7], OUTPUT);
-  pinMode(pinMap[1], OUTPUT);
-  pinMode(pinMap[2], OUTPUT);
+  /* pinMap[2] will be used for one-wire DQ. */
 #endif
   delay(hw_delay);
 }
@@ -100,11 +92,6 @@ void ButtonLoop()
   btn_prev_secs_held = btn_secs_held;
 }
 
-void LedLoop()
-{
-  
-}
-
 OneWire* getWire() 
 {
     return &oneWire;
@@ -131,5 +118,4 @@ void HWInit()
 void HWLoop()
 {
   ButtonLoop();
-  LedLoop();
 }
