@@ -1,7 +1,8 @@
 #ifndef ARDUINO_GLOBAL_H
 #define ARDUINO_GLOBAL_H
 
-#define PRINTF Serial.printf
+#define Printf Serial.printf
+#define SERIAL_BAUD_RATE 9600
 
 typedef enum Protocol
 {

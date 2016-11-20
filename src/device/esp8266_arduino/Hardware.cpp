@@ -52,7 +52,7 @@ void GPIOInit()
 
 void SerialInit()
 {
-  Serial.begin(9600);
+  Serial.begin(SERIAL_BAUD_RATE);
   Serial.setDebugOutput(true);
   delay(hw_delay);
 }

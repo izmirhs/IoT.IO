@@ -36,6 +36,7 @@ boolean payloadDispatch(JsonObject& pObject)
         if(pObject[PAYLOAD_ATTR_SSID].as<const char*>())
         {
           retval = FSStoreWiFiCredentials(pObject[PAYLOAD_ATTR_SSID], pObject[PAYLOAD_ATTR_PASSPHRASE]);
+          pObject[PAYLOAD_ATTR_DEVICE_ID] = ESP.getChipId();
         }
         else
         {
@@ -108,7 +109,7 @@ boolean PAYLOADCompose(const char* type, const char* data, char* request)
    * MAC would also be sent if non-ESP nodes included in the network.
    * Uniqe identifier will be needed to manage socket connection handles on cloud server side.
    */
-  //deviceData[PAYLOAD_ATTR_DEVICE_ID] = ESP.getChipId();
+  deviceData[PAYLOAD_ATTR_DEVICE_ID] = ESP.getChipId();
   deviceData[PAYLOAD_ATTR_TYPE] = type;
   deviceData[PAYLOAD_ATTR_DATA] = data;
   deviceData[PAYLOAD_ATTR_SUCCESS] = 1;
