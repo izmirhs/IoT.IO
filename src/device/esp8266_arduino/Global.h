@@ -1,8 +1,9 @@
 #ifndef ARDUINO_GLOBAL_H
 #define ARDUINO_GLOBAL_H
 
-#define Printf Serial.printf
-#define SERIAL_BAUD_RATE 9600
+#define Printf            Serial.printf
+#define SERIAL_BAUD_RATE  9600
+#define TIMER_PERIOD      10 * 1000
 
 typedef enum Protocol
 {
@@ -35,6 +36,7 @@ typedef enum Protocol
 #define MAX_JSON_ATTR_LEN 64
 #define JSON_BUF_SIZE     256
 #define MAX_IP_LEN        17
+#define LEN_TEMP_MAX      6
 
 /* GPIO Definitions */
 static const uint8_t pinMap[11] = {16, 5, 4, 0, 2, 14, 12, 13, 15, 3, 1};

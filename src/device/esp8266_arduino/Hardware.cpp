@@ -1,7 +1,15 @@
+#include <OneWire.h>
+
 #include "Hardware.h"
 #include "FileOrganizer.h"
 #include "Global.h"
 
+/* Library lacks empty constructor.
+ * Not able to trigger from Hardware.cpp. Think to add it to the lib.
+ */
+static OneWire oneWire(pinMap[2]);
+
+/* Button variables. */
 short hw_delay = 10;
 int   btn_current = 0;
 long  btn_millis_held = 0;
@@ -95,6 +103,11 @@ void ButtonLoop()
 void LedLoop()
 {
   
+}
+
+OneWire* getWire() 
+{
+    return &oneWire;
 }
 
 void HWRestart()

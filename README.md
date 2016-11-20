@@ -16,6 +16,9 @@ Required Arduino Libraries :
 1. ArduinoJson		: https://github.com/bblanchon/ArduinoJson
 2. ArduinoWebSocket	: https://github.com/Links2004/arduinoWebSockets
 3. PubSubClient		: https://github.com/knolleary/pubsubclient/
+4. ArduinoHTTPClient: https://github.com/milesburton/Arduino-Temperature-Control-Library 
+5. OneWire			: https://github.com/PaulStoffregen/OneWire
+6. DallasTemperature: https://github.com/milesburton/Arduino-Temperature-Control-Library
 
 WiFi Setup Methods : 
 
@@ -48,6 +51,12 @@ Data Communication Methods :
 0. Our base supports both MQTT and WebSocket for cloud comm. Contact Cihan Begburs for server credentials.
 1. For MQTT, enable PROTOCOL_MQTT define from Global.h.
 2. For WebSocket, enable PROTOCOL_WEBSOCKET define from Global.h.
+
+Hardware :
+
+1. Initial DS18B20 OneWire digital sensor implementaiton was added thru the library.
+OneWire needs a 4.7K pull-up resistor. Check for the schematics.
+2. Relays are able to be controlled via GPIOs 8 & 9.
 
 Factory Reset:
 
