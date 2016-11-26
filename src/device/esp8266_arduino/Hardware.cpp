@@ -2,12 +2,13 @@
 
 #include "Hardware.h"
 #include "FileOrganizer.h"
+#include "TempSensor.h"
 #include "Global.h"
 
 /* Library lacks empty constructor.
  * Not able to trigger from Hardware.cpp. Think to add it to the lib.
  */
-static OneWire oneWire(pinMap[2]);
+OneWire oneWire(pinMap[2]);
 
 /* Button variables. */
 short hw_delay = 10;
@@ -92,11 +93,6 @@ void ButtonLoop()
   btn_prev_secs_held = btn_secs_held;
 }
 
-OneWire* getWire() 
-{
-    return &oneWire;
-}
-
 void HWRestart()
 {
   ESP.restart();
@@ -113,9 +109,11 @@ void HWInit()
   SerialInit();
   FSInit();
   ButtonInit();
+  TEMPInit(&oneWire);
 }
 
 void HWLoop()
 {
   ButtonLoop();
+  TEMPLoop();
 }

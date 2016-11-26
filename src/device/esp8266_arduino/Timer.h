@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-void TIMERInit(uint32_t period);
-void TIMERLoop();
+void TMRInit(uint32_t period);
+void TMRLoop();
 
 #endif /* ARDUINO_TIMER_H */

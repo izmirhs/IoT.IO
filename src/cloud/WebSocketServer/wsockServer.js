@@ -7,9 +7,14 @@ var activeWSDeviceConnHandles = [];
 var activeWSUserClientConnHandles = [];
 var connectedWSUsers = 0;
 
+var connectionHandles = [];
+
 console.log("WebServer begins.");
 
 var WSServer = ws.createServer(function (conn) {
+	console.log("Connection to path : " + conn.path);
+	var handle = {path : conn.path, device : null, userclient : null};
+	connectionHandles.push(handle);
     conn.on("text", function (msg) {
         console.log("Received -> "+ msg);
         try 
@@ -22,58 +27,51 @@ var WSServer = ws.createServer(function (conn) {
             return;
         }
         var msgParsed = JSON.parse(msg.toString());
-        if(msgParsed.type == "ws_init")
+		var currentHandle = storedHandleItem(conn.path);
+		
+		if(currentHandle != null)
+		{
+			if (msgParsed.origin == "device")
+		    {
+		        
+		    }
+		    else if (msgParsed.origin == "userclient")
+		    {
+		        
+		    }
+		}
+		else
+		{
+			console.log("Handle is null!");
+		}
+		
+
+        
+        /*var connHandle = null;
+        if (msgParsed.origin == "device")
         {
-            if (msgParsed.origin == "device")
-            {
-                if(activeWSDeviceConnHandles[msgParsed.deviceId] != null)
-                {
-                    /* TODO close previous unresponsive conn over device. */
-                    /* TODO use path variable instead of creating enormous conn handle array. */
-                    activeWSDeviceConnHandles[msgParsed.deviceId].close();
-                }
-                activeWSDeviceConnHandles[msgParsed.deviceId] = conn;
-            }
-            else if (msgParsed.origin == "userclient")
-            {
-                if(activeWSUserClientConnHandles[msgParsed.deviceId] != null)
-                {
-                    activeWSUserClientConnHandles[msgParsed.deviceId].close();
-                }
-                activeWSUserClientConnHandles[msgParsed.deviceId] = conn;
-            }
-            msgParsed.succeed = 1;
-            conn.sendText(JSON.stringify(msgParsed));
+            connHandle = activeWSUserClientConnHandles[msgParsed.deviceId];
         }
-        else
+        else if (msgParsed.origin == "userclient")
         {
-            var connHandle = null;
-            /* Cross handles to bridge between device and user client. */
-            if (msgParsed.origin == "device")
+            connHandle = activeWSDeviceConnHandles[msgParsed.deviceId];
+        }
+        
+        if(connHandle != null)
+        {
+            if(connHandle.readyState == conn.OPEN)
             {
-                connHandle = activeWSUserClientConnHandles[msgParsed.deviceId];
-            }
-            else if (msgParsed.origin == "userclient")
-            {
-                connHandle = activeWSDeviceConnHandles[msgParsed.deviceId];
-            }
-            
-            if(connHandle != null)
-            {
-                if(connHandle.readyState == conn.OPEN)
-                {
-                    connHandle.sendText(msg);
-                }
-                else
-                {
-                    console.log("Connection status on " + msgParsed.deviceId + " is : " +  connHandle.readyState);
-                }
+                connHandle.sendText(msg);
             }
             else
             {
-                console.log("Not a valid WS handle.");
+                console.log("Connection status on " + msgParsed.deviceId + " is : " +  connHandle.readyState);
             }
         }
+        else
+        {
+            console.log("Not a valid WS handle.");
+        }*/
     });
     
     conn.on("close", function (code, reason) {
@@ -95,5 +93,18 @@ WSServer.on("close", function () {
 WSServer.on("error", function (errObj) {
     console.log("Error on WebServer!");
 });
+
+function storedHandleItem(path)
+{
+	var itemObj = null;
+    connectionHandles.forEach(function (obj) {
+        if (obj.path == path)
+		{
+			itemObj = obj;
+		}
+    });
+
+	return itemObj;
+}
 
 

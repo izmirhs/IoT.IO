@@ -3,7 +3,7 @@
 
 #define Printf            Serial.printf
 #define SERIAL_BAUD_RATE  9600
-#define TIMER_PERIOD      10 * 1000
+#define TIMER_PERIOD      60 * 1000
 
 typedef enum Protocol
 {

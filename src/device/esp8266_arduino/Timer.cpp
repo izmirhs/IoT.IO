@@ -15,19 +15,21 @@ void timerCallback(void *pArg)
   localTimerTick = true;
 }
 
-void TIMERInit(uint32_t period)
+void TMRInit(uint32_t period)
 {
   os_timer_setfn(&localTimer, timerCallback, NULL);
   os_timer_arm(&localTimer, period, true);
   localTimerTick = false;
 }
 
-void TIMERLoop()
+void TMRLoop()
 {
   if(localTimerTick)
-  {
+  { 
     /* Periodic event in here! */
+   
     localTimerTick = false;
   }
+  yield();
 }
 
