@@ -16,9 +16,8 @@ Required Arduino Libraries :
 1. ArduinoJson		: https://github.com/bblanchon/ArduinoJson
 2. ArduinoWebSocket	: https://github.com/Links2004/arduinoWebSockets
 3. PubSubClient		: https://github.com/knolleary/pubsubclient/
-4. ArduinoHTTPClient: https://github.com/milesburton/Arduino-Temperature-Control-Library 
-5. OneWire			: https://github.com/PaulStoffregen/OneWire
-6. DallasTemperature: https://github.com/milesburton/Arduino-Temperature-Control-Library
+4. OneWire			: https://github.com/PaulStoffregen/OneWire
+5. DallasTemperature: https://github.com/milesburton/Arduino-Temperature-Control-Library
 
 WiFi Setup Methods : 
 

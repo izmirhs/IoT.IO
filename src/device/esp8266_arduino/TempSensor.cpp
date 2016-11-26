@@ -32,9 +32,9 @@ void printTemperature()
   }
 }
 
-void TEMPInit()
+void TEMPInit(OneWire* oneWire)
 {
-  sense18B20.setOneWire(getWire());
+  sense18B20.setOneWire(oneWire);
   sense18B20.begin();
   Printf("Trace   : Found %d Sensor devices.\n", sense18B20.getDeviceCount());
 }
