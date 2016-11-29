@@ -37,7 +37,7 @@
         <div id="GPIOControl" class="tab-pane fade in active">
             <h4 class="glyphicon glyphicon-flash"> GPIOControl</h4>
             <hr/>
-            <table id ="DeviceListOfSprinklers" class="table table-striped hidden">
+            <table id ="DeviceListOfGPIOs" class="table table-striped hidden">
                 <tbody>
                 <tr>
                     <td>Pin 1</td>
@@ -61,6 +61,8 @@
         <div id="Timers" class="tab-pane fade">
             <h4 class="glyphicon glyphicon-time"> Timers</h4>
             <hr/>
+            <table id ="DeviceListOfTimers" class="table table-striped hidden">
+            </table>
         </div>
         <div id="Setup" class="tab-pane fade in">
             <h4 class="glyphicon glyphicon-wrench"> Setup</h4>
@@ -120,11 +122,10 @@
 
 <script src="./libs/jquery.min.js"></script>
 <script src="./libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<script src="./js/Constants.js"></script>
+<script src="./js/Elements.js"></script>
+<script src="./js/PostHandler.js"></script>
+<script src="./js/SocketHandler.js"></script>
+<script src="./js/Communicator.js"></script>
 
-<script type="text/javascript">
-function refreshPage()
-{
-    location.reload(true);
-}
-</script>
 </html>
