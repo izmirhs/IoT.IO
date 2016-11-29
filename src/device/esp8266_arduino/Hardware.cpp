@@ -82,7 +82,7 @@ void ButtonLoop()
       {
         Serial.printf("Pressed for less then 1 seconds!\n");
       }
-      if (btn_secs_held >= 3)
+      if (btn_secs_held >= BUTTON_ACT_SEC)
       {
         FSDeleteFile(WIFI_CONFIG_FILE);
         ESP.restart();
@@ -96,6 +96,19 @@ void ButtonLoop()
 void HWRestart()
 {
   ESP.restart();
+}
+
+void HWSetGPIO(uint8_t pin, bool val)
+{
+  /* Implement GPIO map for different devices. */
+  digitalWrite(pinMap[pin], val);
+  delay(hw_delay);
+}
+
+bool HWGetGPIO(uint8_t pin)
+{
+  /* Implement GPIO map for different devices. */
+  return digitalRead(pinMap[pin]);
 }
 
 void HWGetDeviceId(char *uid)

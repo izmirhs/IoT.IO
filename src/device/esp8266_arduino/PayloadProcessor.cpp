@@ -6,9 +6,9 @@
 #include "Hardware.h"
 #include "Global.h"
 
-boolean payloadDispatch(JsonObject& pObject)
+bool payloadDispatch(JsonObject& pObject)
 {
-  boolean retval = false;
+  bool retval = false;
   char type[PAYLOAD_ATTR_LEN] = {0};
   char origin[PAYLOAD_ATTR_LEN] = {0};
   
@@ -31,6 +31,7 @@ boolean payloadDispatch(JsonObject& pObject)
     if(type)
     {
       Serial.printf("Trace   : Payload attribute type : %s\n", type);
+      
       if (strcmp(type, PAYLOAD_DATA_AP_INFO) == 0)
       {
         if(pObject[PAYLOAD_ATTR_SSID].as<const char*>())
@@ -46,6 +47,11 @@ boolean payloadDispatch(JsonObject& pObject)
       else if (strcmp(type, PAYLOAD_DATA_AP_SEARCH) == 0)
       {
         /* Request visible WiFi networks from device. */
+      }
+      else if (strcmp(type, PAYLOAD_DATA_AP_POLL) == 0)
+      {
+        /* Just succeed it, no data to transmit. */
+        retval = true;
       }
       else if (strcmp(type, PAYLOAD_DATA_AP_DONE) == 0)
       {
@@ -63,17 +69,32 @@ boolean payloadDispatch(JsonObject& pObject)
         char ssid[MAX_FILE_ATTR_LEN];
         char pass[MAX_FILE_ATTR_LEN];
         WiFiGetIP(deviceIP);
-        WiFiGetSSID(ssid);
-        WiFiGetPassphrase(pass);
-        pObject[PAYLOAD_ATTR_SSID] = ssid;
-        pObject[PAYLOAD_ATTR_PASSPHRASE] = pass;
         pObject[PAYLOAD_ATTR_IP] = deviceIP;
-        pObject[PAYLOAD_ATTR_SUCCESS] = 1;
+        WiFiGetSSID(ssid);
+        pObject[PAYLOAD_ATTR_SSID] = ssid;
+        WiFiGetPassphrase(pass);
+        pObject[PAYLOAD_ATTR_PASSPHRASE] = pass;
+        retval = true;
+      }
+      else if (strcmp(type, PAYLOAD_DATA_STATUS) == 0)
+      {
+        JsonArray& pinStats = pObject.createNestedArray("pins");
+        /* Perform a loop for max pin count. */
+        pinStats.add((uint8_t)HWGetGPIO(0));
+        pinStats.add((uint8_t)HWGetGPIO(1));
         retval = true;
       }
       else if (strcmp(type, PAYLOAD_DATA_SWITCH) == 0)
       {
-        /* Do Some GPIO operations */
+        unsigned short switchNo = pObject[PAYLOAD_ATTR_ID].as<unsigned short>();
+        /* Pin numbers are starting from 1 from user side. */
+        if(switchNo > 0 && switchNo <= MAX_PIN_CNT)
+        {
+          unsigned short pinOnDevice = switchNo - 1;
+          HWSetGPIO(pinOnDevice, !HWGetGPIO(pinOnDevice));
+          pObject[PAYLOAD_ATTR_DATA] = (uint8_t)HWGetGPIO(pinOnDevice);
+          retval = true;
+        }
       }
       else if (strcmp(type, PAYLOAD_DATA_TIMER) == 0)
       {
@@ -91,16 +112,16 @@ boolean payloadDispatch(JsonObject& pObject)
   return retval;
 }
 
-boolean payloadProcess(const char* payload, Protocol_t protocol)
+bool payloadProcess(const char* payload, Protocol_t protocol)
 {
- boolean retval = false;
+  bool retval = false;
 
- return retval;
+  return retval;
 }
 
-boolean PAYLOADCompose(const char* type, const char* data, char* request)
+bool PAYLOADCompose(const char* type, const char* data, char* request)
 {
-  boolean retval = false;
+  bool retval = false;
   memset(request, 0, JSON_BUF_SIZE);
   StaticJsonBuffer<JSON_BUF_SIZE> jsonBuffer;
   JsonObject& deviceData = jsonBuffer.createObject();
@@ -125,9 +146,9 @@ boolean PAYLOADCompose(const char* type, const char* data, char* request)
   return retval;
 }
 
-boolean PAYLOADParse(const char* payload, Protocol_t protocol, char* response)
+bool PAYLOADParse(const char* payload, Protocol_t protocol, char* response)
 {
-  boolean retval = false;
+  bool retval = false;
   memset(response, 0, JSON_BUF_SIZE);
   if(strlen(payload))
   {
@@ -138,7 +159,13 @@ boolean PAYLOADParse(const char* payload, Protocol_t protocol, char* response)
       Serial.printf("Trace   : Payload has a valid JSON.\n");
       if(retval = payloadDispatch(payloadObject))
       {
+        payloadObject[PAYLOAD_ATTR_SUCCESS] = 1;
         payloadObject.printTo(response, JSON_BUF_SIZE);
+      }
+      else
+      {
+        /* Payload with no success will not be processed on userclient. */
+        Serial.printf("Error!  : Dispatch failed!\n");
       }
     }
     else
