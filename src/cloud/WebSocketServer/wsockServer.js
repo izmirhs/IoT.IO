@@ -9,7 +9,14 @@ var connectedWSUsers = 0;
 
 console.log("WebServer begins.");
 
-var WSServer = ws.createServer(function (conn) {
+/* See http://www.nodejs.org/api/tls.html for info on how to create key and certificate files. */
+var options = {
+	secure: true,
+	key: fs.readFileSync("key.pem"),
+	cert: fs.readFileSync("cert.pem")
+}
+
+var WSServer = ws.createServer(/*options,*/ function (conn) {
     conn.on("text", function (msg) {
         console.log("Received -> "+ msg);
         try 
