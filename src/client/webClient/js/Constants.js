@@ -1,12 +1,12 @@
 /* Networking configurations. */
-var AP_IP         		= "192.168.99.1";
-var CLOUD_ADDRESS 		= "WEBSOCK_HOST_ADDR:PORT";
+var AP_IP               = "192.168.99.1";
+var CLOUD_ADDRESS       = "WEBSOCK_HOST_ADDR:PORT";
 /* Timeout and Intervals. */
-var TIMER_INTERVAL 		= 2500;
-var REFRESH_INTERVAL	= 2500;
-var TOUT_AFTER_SETUP	= 20000;
+var TIMER_INTERVAL      = 2500;
+var REFRESH_INTERVAL    = 2500;
+var TOUT_AFTER_SETUP    = 20000;
 var TOUT_AFTER_RESET    = 2500;
-var AP_REQ_TOUT   		= TIMER_INTERVAL - 500;
+var AP_REQ_TOUT         = TIMER_INTERVAL - 500;
 var SEARCH_REQ_TOUT     = 8 * AP_REQ_TOUT;
 /* Generic Definitions. */
 var SUCCESS             = "1";
