@@ -1,6 +1,6 @@
 /* Networking configurations. */
 var AP_IP               = "192.168.99.1";
-var CLOUD_ADDRESS       = "WEBSOCK_HOST_ADDR:PORT";
+var CLOUD_ADDRESS       = "ws://hommycloud.com:7890/";
 /* Timeout and Intervals. */
 var TIMER_INTERVAL      = 2500;
 var REFRESH_INTERVAL    = 2500;
@@ -22,6 +22,7 @@ var WS_INIT             = "ws_init";
 var WS_BRIDGE           = "Bridge";
 var WS_STATUS           = "Status";
 var WS_SWITCH           = "Switch";
+var WS_SENSOR           = "Sensor";
 var WS_FACTORY          = "Factory";
 var WS_PING             = "Ping";
 /* Targets and Sources of the requests. */
