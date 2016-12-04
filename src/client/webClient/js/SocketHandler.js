@@ -155,6 +155,14 @@ function dispatchCommand(result)
             VIEW_doSwitchPerformed(result.id, result.data.toString());
         }
     }
+    else if (result.type == WS_SENSOR)
+    {
+        if(result.data.toString() != "" && result.data != UNDEFINED)
+        {
+            console.log("Temp gathered : " + result.data);
+            VIEW_doShowSensorData(result.data);
+        }
+    }
     else if(result.type == WS_PING)
     {
         /* Perform ping/pong to catch disconnection. */

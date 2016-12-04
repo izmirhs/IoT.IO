@@ -52,12 +52,19 @@ float TEMPGet(uint8_t id)
   return retval;
 }
 
-void TEMPGetString(uint8_t id, char* tempBuffer)
+bool TEMPGetString(uint8_t id, char* tempBuffer)
 {
-    float sensorData = TEMPGet(id);
+  bool retval = false;
+  float sensorData = TEMPGet(id);
+  if(sensorData != INVALID_TEMP_READ)
+  {
     const uint8_t data_len = 3;
     const uint8_t data_prec_len = 2;
     dtostrf(sensorData, data_len, data_prec_len, tempBuffer);
+    retval = true;
+  }
+  
+  return retval;
 }
 
 void TEMPLoop()

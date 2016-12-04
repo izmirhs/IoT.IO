@@ -16,6 +16,7 @@
                     </button>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="tabDrop1">
                         <li><a data-toggle="pill" href="#GPIOControl"><span class="glyphicon glyphicon-flash"> GPIOs</span></a></li>
+                        <li><a data-toggle="pill" href="#Monitoring"><span class="glyphicon glyphicon-tasks"> Monitoring</span></a></li>
                         <li><a data-toggle="pill" href="#Timers"><span class="glyphicon glyphicon-time"> Timers</span></a></li>
                         <li><a data-toggle="pill" href="#Setup"><span class="glyphicon glyphicon-wrench"> Setup</span></a></li>
                     </ul>
@@ -58,6 +59,20 @@
             </tbody>
             </table>
         </div>
+        <div id="Monitoring" class="tab-pane fade">
+            <h4 class="glyphicon glyphicon-tasks"> Monitoring</h4>
+            <hr/>
+            <table id="DeviceListToBeMonitored" class="table table-striped hidden">
+            <tbody>
+                <tr id="TempSensorRow1" class="hidden">
+                    <td class="glyphicon glyphicon-fire"> Sensor 1</td>
+                    <td class="text-right">
+                        <label id="TempSensor1Data"></label>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
         <div id="Timers" class="tab-pane fade">
             <h4 class="glyphicon glyphicon-time"> Timers</h4>
             <hr/>
@@ -72,7 +87,9 @@
                     <div class="input-group">
                         <input type="text" id="stassid" class="form-control" placeholder="WiFi SSID" />
                         <span class="input-group-btn dropdown">
-                            <button id="searchStationButton" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" onclick="searchStationReq()"><span class="glyphicon glyphicon-search"></span></button>
+                            <button id="searchStationButton" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" onclick="searchStationReq()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
                             <ul id="searchStationResultDropDown" class="dropdown-menu dropdown-menu-right">
                                 <li>Searching ..</li>
                             </ul>

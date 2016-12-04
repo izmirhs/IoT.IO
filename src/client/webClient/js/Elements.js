@@ -37,6 +37,17 @@ function VIEW_doSwitchPerformed(_id, _data)
     }
 }
 
+function VIEW_doShowSensorData(_data)
+{
+    VIEW_doShowTempSensorData(_data);
+}
+
+function VIEW_doShowTempSensorData(_data)
+{
+    $("#TempSensorRow1").removeClass("hidden");
+    $("#TempSensor1Data").text(_data + " \xB0C");
+}
+
 function VIEW_disableSwitch(_id)
 {
     $("#basicSwitch" + _id).removeClass("btn-success");
@@ -149,14 +160,15 @@ function VIEW_denoteCannotEstablishCloudConn()
 function showDevices()
 {
     $('#DeviceListOfGPIOs').removeClass("hidden");
+    $('#DeviceListToBeMonitored').removeClass("hidden");
     $('#DeviceListOfTimers').removeClass("hidden");
 }
 
 function hideDevices()
 {
-    $('#DeviceListOfSprinklers').addClass("hidden");
-    $('#DeviceListOfLights').addClass("hidden");
-    $('#TimerList').addClass("hidden");
+    $('#DeviceListOfGPIOs').addClass("hidden");
+    $('#DeviceListToBeMonitored').addClass("hidden");
+    $('#DeviceListOfTimers').addClass("hidden");
 }
 
 function refreshPage()

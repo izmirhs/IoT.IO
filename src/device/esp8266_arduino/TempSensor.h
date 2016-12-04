@@ -9,7 +9,7 @@
 
 void  TEMPInit(OneWire* wire);
 float TEMPGet(uint8_t id);
-void  TEMPGetString(uint8_t id, char* tempBuffer);
+bool  TEMPGetString(uint8_t id, char* tempBuffer);
 void  TEMPLoop();
 
 #endif /* ARDUINO_TEMPSENSOR_H */

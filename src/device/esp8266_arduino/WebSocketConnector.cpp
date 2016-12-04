@@ -22,7 +22,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t lenght)
     case WStype_CONNECTED:
       {
         Serial.printf("Trace   : webSocketEvent. Connected to url: %s\n",  payload);
-        WSOCKDeliver(WS_TYPE_INIT, String(ESP.getChipId()).c_str());
+        WSOCKDeliver(PAYLOAD_DATA_INIT, String(ESP.getChipId()).c_str());
       }
       break;
     case WStype_TEXT:
@@ -51,21 +51,27 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t lenght)
 
 void WSOCKInit()
 {
-  /* Path gonna be used. */
-  wsClient.begin(WSOCK_HOST, WSOCK_PORT /*, String(ESP.getChipId())*/);
+  /* TODO: Use path for server connection. */
+  wsClient.begin(WSOCK_HOST, WSOCK_PORT);
   /* Some authorization and SSL must be performed. */
   //wsClient.setAuthorization("user", "Password");
   wsClient.onEvent(webSocketEvent);
   wsInitCompleted = true;
 }
 
-void WSOCKDeliver(const char* type, const char* data)
+bool WSOCKDeliver(const char* type, const char* data)
 {
-  char request[JSON_BUF_SIZE];
-  if(PAYLOADCompose(type, data, request))
+  bool retval = false;
+  if(wsInitCompleted)
   {
-    wsClient.sendTXT(request);
+    char request[JSON_BUF_SIZE];
+    if(PAYLOADCompose(type, data, request))
+    {
+      retval = wsClient.sendTXT(request);
+    }
   }
+
+  return retval;
 }
 
 void WSOCKLoop()
