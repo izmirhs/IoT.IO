@@ -4,6 +4,8 @@
 #include "WiFiCore.h"
 #include "FileOrganizer.h"
 #include "Hardware.h"
+#include "PinMap.h"
+#include "TempSensor.h"
 #include "Global.h"
 
 bool payloadDispatch(JsonObject& pObject)
@@ -82,6 +84,12 @@ bool payloadDispatch(JsonObject& pObject)
         /* Perform a loop for max pin count. */
         pinStats.add((uint8_t)HWGetGPIO(0));
         pinStats.add((uint8_t)HWGetGPIO(1));
+        char tempBuffer[LEN_TEMP_MAX];
+        if(TEMPGetString(0, tempBuffer))
+        {
+          JsonArray& sensorStats = pObject.createNestedArray("sensors");
+          sensorStats.add(tempBuffer);
+        }
         retval = true;
       }
       else if (strcmp(type, PAYLOAD_DATA_SWITCH) == 0)
