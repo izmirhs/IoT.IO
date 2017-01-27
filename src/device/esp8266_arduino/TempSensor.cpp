@@ -55,15 +55,22 @@ float TEMPGet(uint8_t id)
 bool TEMPGetString(uint8_t id, char* tempBuffer)
 {
   bool retval = false;
-  float sensorData = TEMPGet(id);
-  if(sensorData != INVALID_TEMP_READ)
+  DeviceAddress temper;
+  if(sense18B20.getDeviceCount())
   {
-    const uint8_t data_len = 3;
-    const uint8_t data_prec_len = 2;
-    dtostrf(sensorData, data_len, data_prec_len, tempBuffer);
-    retval = true;
+    sense18B20.requestTemperatures();
+    /* A lil bit delay ? */
+    memset(tempBuffer, 0, LEN_TEMP_MAX);
+    if (sense18B20.getAddress(temper, id))
+    {
+      sense18B20.setResolution(temper, SENSOR_SENSITIVITY);
+      const uint8_t data_len = 3;
+      const uint8_t data_prec_len = 2;
+      dtostrf(sense18B20.getTempC(temper), data_len, data_prec_len, tempBuffer);
+      retval = true;
+    }
   }
-  
+
   return retval;
 }
 

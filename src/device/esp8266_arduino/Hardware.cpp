@@ -66,6 +66,11 @@ bool HWGetGPIO(uint8_t pin)
 #endif
 }
 
+bool HWGetTempAsString(uint8_t id, char* tempBuf)
+{
+  return TEMPGetString(id, tempBuf);
+}
+
 void HWGetDeviceId(char *uid)
 {
   /* Most device types use UUID. We may just use MAC or some concat. */

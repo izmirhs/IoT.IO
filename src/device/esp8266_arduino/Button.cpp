@@ -49,7 +49,7 @@ void ButtonLoop()
       {
         Serial.printf("Pressed for less then 1 seconds!\n");
       }
-      if (btn_secs_held >= BUTTON_ACT_SEC)
+      if (btn_secs_held >= BUTTON_ACTIVATION_SECS)
       {
         FSDeleteFile(WIFI_CONFIG_FILE);
         ESP.restart();

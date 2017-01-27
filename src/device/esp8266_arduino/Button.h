@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 /* Button activation in seconds. */
-#define BUTTON_ACT_SEC  3
+#define BUTTON_ACTIVATION_SECS  3
 
 void ButtonInit();
 void ButtonLoop();

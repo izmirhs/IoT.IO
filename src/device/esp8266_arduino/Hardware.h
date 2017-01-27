@@ -13,6 +13,7 @@
 void HWInit();
 void HWRestart();
 void HWGetUniqeId(char *uid);
+bool HWGetTempAsString(uint8_t id, char* tempBuf);
 void HWSetGPIO(uint8_t pin, bool val);
 bool HWGetGPIO(uint8_t pin);
 void HWLoop();
