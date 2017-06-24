@@ -75,6 +75,9 @@ bool payloadDispatch(JsonObject& pObject)
         pObject[PAYLOAD_ATTR_SSID] = ssid;
         WiFiGetPassphrase(pass);
         pObject[PAYLOAD_ATTR_PASSPHRASE] = pass;
+
+        /* TODO: Set MQTT Topic with gathered userID */
+        
         retval = true;
       }
       else if (strcmp(type, PAYLOAD_DATA_STATUS) == 0)
@@ -133,11 +136,7 @@ bool PAYLOADCompose(const char* type, const char* data, char* request)
   StaticJsonBuffer<JSON_BUF_SIZE> jsonBuffer;
   JsonObject& deviceData = jsonBuffer.createObject();
   deviceData[PAYLOAD_ATTR_ORIGIN] = PAYLOAD_ORIGIN_DEVICE;
-  /* Experimentally send deviceID as unique identifier. 
-   * MAC would also be sent if non-ESP nodes included in the network.
-   * Uniqe identifier will be needed to manage socket connection handles on cloud server side.
-   */
-  deviceData[PAYLOAD_ATTR_DEVICE_ID] = ESP.getChipId();
+  deviceData[PAYLOAD_ATTR_DEVICE_ID] = WiFi.macAddress();
   deviceData[PAYLOAD_ATTR_TYPE] = type;
   deviceData[PAYLOAD_ATTR_DATA] = data;
   deviceData[PAYLOAD_ATTR_SUCCESS] = 1;
