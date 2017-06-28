@@ -21,6 +21,17 @@ function VIEW_validateAndPerformSwitches(_resultData)
     }
 }
 
+function VIEW_validateAndPerformSensors(_resultData)
+{
+    if (_resultData.toString() != "" && _resultData.toString() != "undefined")
+    {
+        _resultData.forEach(function(item, i){
+            /* Device IDs are not starting from 0, so increment by 1. */
+            VIEW_doShowSensorData(i + 1, item);
+        });
+    }
+}
+
 function VIEW_doSwitchPerformed(_id, _data)
 {
     if(_data.toString() == "1")
@@ -37,15 +48,15 @@ function VIEW_doSwitchPerformed(_id, _data)
     }
 }
 
-function VIEW_doShowSensorData(_data)
+function VIEW_doShowSensorData(_id, _data)
 {
-    VIEW_doShowTempSensorData(_data);
+    VIEW_doShowTempSensorData(_id, _data);
 }
 
-function VIEW_doShowTempSensorData(_data)
+function VIEW_doShowTempSensorData(_id, _data)
 {
-    $("#TempSensorRow1").removeClass("hidden");
-    $("#TempSensor1Data").text(_data + " \xB0C");
+    $("#TempSensorRow" + _id).removeClass("hidden");
+    $("#TempSensorData" + _id).text(_data + " \xB0C");
 }
 
 function VIEW_disableSwitch(_id)

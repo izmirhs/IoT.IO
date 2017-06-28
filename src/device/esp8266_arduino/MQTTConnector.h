@@ -3,16 +3,18 @@
 
 #include <Arduino.h>
 
-#define MQTT_TOPIC_JSON    "/iot/json"
-#define MQTT_TOPIC_INIT    "/iot/text/init"
-#define MQTT_TOPIC_SENSOR  "/iot/text/sensor"
-#define MQTT_TOPIC_RELAY   "/iot/text/relay"
+#define MQTT_TOPIC_ROOT   "IoT.IO/devices/"
+#define MQTT_TYPE_INIT    "mqtt_init"
 
-#define MQTT_TYPE_INIT     "mqtt_init"
+#define MAX_TOPIC_LEN     128
 
 void    MQTTInit();
 void    MQTTLoop();
-boolean MQTTDeliver(const char* topic, const char* payload);
-boolean MQTTDeliver(const char* topic, const char* type, const char* data);
+boolean MQTTPublish(const char* topic, const char* payload);
+boolean MQTTPublish(const char* topic, const char* type, const char* data);
+boolean MQTTSubscribe(const char* topicToSubscribe);
+boolean MQTTConnected();
+void    MQTTSetTopic(const char* topic);
+void    MQTTDisconnect();
 
 #endif /* ARDUINO_MQTTCONNECTOR_H */

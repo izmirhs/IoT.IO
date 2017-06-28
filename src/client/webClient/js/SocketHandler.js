@@ -143,9 +143,13 @@ function dispatchCommand(result)
     }
     else if(result.type == WS_STATUS)
     {
-        if(result.pins != "" && result.pins != UNDEFINED)
+        if(result.pins != "" && result.pins != UNDEFINED && result.pins != null)
         {
             VIEW_validateAndPerformSwitches(result.pins);
+        }
+        if(result.sensors != "" && result.sensors != UNDEFINED && result.sensors != null)
+        {
+            VIEW_validateAndPerformSensors(result.sensors);
         }
     }
     else if (result.type == WS_SWITCH)
@@ -160,7 +164,8 @@ function dispatchCommand(result)
         if(result.data.toString() != "" && result.data != UNDEFINED)
         {
             console.log("Temp gathered : " + result.data);
-            VIEW_doShowSensorData(result.data);
+            /* IDs gonna be set from incoming message. A custom message or type will be defined. */
+            VIEW_doShowSensorData(1, result.data);
         }
     }
     else if(result.type == WS_PING)
